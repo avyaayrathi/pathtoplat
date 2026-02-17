@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from backend.models import Submission
+from backend.skill_engine import analyze_submissions
 
 app = FastAPI()
 
@@ -9,3 +11,8 @@ def read_root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.post("/analyze")
+def analyze(data: list[Submission]):
+    weak = analyze_submissions(data)
+    return {"weak_topics": weak}
